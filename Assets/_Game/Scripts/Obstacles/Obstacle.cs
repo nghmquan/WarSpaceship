@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class Obstacle: MonoBehaviour
 {
     protected virtual void Move(float _moveSpeed)
     {

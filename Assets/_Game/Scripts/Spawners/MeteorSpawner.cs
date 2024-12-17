@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,16 +13,16 @@ public class MeteorSpawner : Spawner<Meteor>
     [Header("Meteor Pool")]
     [SerializeField] private int meteorPoolSize;
     private MeteorPool meteorPool;
-    private float meteorSpeed;
+    private float meteorMoveSpeed;
 
     public void Initialize()
     {
         OnInit();
     }
 
-    public void SetSpeed(float _speed)
+    public void SetSpeed(float _moveSpeed)
     {
-        meteorSpeed = _speed;
+        meteorMoveSpeed = _moveSpeed;
     }
 
     public void StartSpawnMeteor()
@@ -32,8 +32,7 @@ public class MeteorSpawner : Spawner<Meteor>
 
     private void OnInit()
     {
-        Meteor randomMeteor = meteorPrefabsList[Random.Range(0, meteorPrefabsList.Count)];
-        meteorPool = new MeteorPool(randomMeteor, meteorPoolSize, meteorsHolder);
+        meteorPool = new MeteorPool(meteorPrefabsList, meteorPoolSize, meteorsHolder);
     }
 
     protected override IEnumerator DelayTimeToSpawn(float _timeToSpawn)
@@ -51,8 +50,8 @@ public class MeteorSpawner : Spawner<Meteor>
         var randomSpawnObject = new Vector2(randomSpawnPosition, transform.position.y);
 
         Meteor meteor = meteorPool.GetObjectFromPool();
-        meteor.SetSpeed(meteorSpeed);
-        if(meteor != null)
+        meteor.SetSpeed(meteorMoveSpeed);
+        if (meteor != null)
         {
             meteor.transform.position = randomSpawnObject;
             meteor.gameObject.SetActive(true);

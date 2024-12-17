@@ -5,20 +5,21 @@ using Object = UnityEngine.Object;
 public class ObjectPool<T> where T : MonoBehaviour
 {
     protected Queue<T> poolObject;
-    protected T objectPrefab;
+    protected List<T> objectPrefabsList;
     protected Transform objectHolder;
 
-    public ObjectPool(T _objectPrefab, int _poolSize, Transform _objectHolder = null)
+    public ObjectPool(List<T> _objectPrefabsList, int _poolSize, Transform _objectHolder = null)
     {
         
-        objectPrefab = _objectPrefab;
+        objectPrefabsList = _objectPrefabsList;
         objectHolder = _objectHolder;
         poolObject = new Queue<T>();
 
         //Initialize object prefab
         for(int i = 0; i < _poolSize; i++)
         {
-            T obj = Object.Instantiate(_objectPrefab, _objectHolder);
+            T ranmdomPrefab = objectPrefabsList[Random.Range(0, objectPrefabsList.Count)];
+            T obj = Object.Instantiate(ranmdomPrefab, _objectHolder);
             obj.gameObject.SetActive(false);
             poolObject.Enqueue(obj);
         }
@@ -35,8 +36,9 @@ public class ObjectPool<T> where T : MonoBehaviour
         }
         else
         {
-            T obj = Object.Instantiate(objectPrefab, objectHolder);
-            objectHolder.gameObject.SetActive(true);
+            T ranmdomPrefab = objectPrefabsList[Random.Range(0, objectPrefabsList.Count)];
+            T obj = Object.Instantiate(ranmdomPrefab, objectHolder);
+            obj.gameObject.SetActive(true);
             return obj;
         }
     }

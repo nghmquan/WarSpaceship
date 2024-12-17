@@ -1,22 +1,31 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
     [Header("Player setting")]
     [SerializeField] private Vector3 worldPosition;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private bool isShield = false;
 
     [Header("Launcher setting")]
-    [SerializeField] private Bullet bulletPrefab;
+    [SerializeField] private List<Bullet> bulletPrefab;
     [SerializeField] private Transform bulletsHolder;
+    [SerializeField] private int bulletSize;
     [SerializeField] private float timeToShoot;
     private BulletPool bulletPool;
+
+    [Header("Items setting")]
+    [SerializeField] private GameObject shield;
+    [SerializeField] private GameObject magnet;
+    [SerializeField ]private int itemId;
 
     private void Start()
     {
         OnInit();
-        StartCoroutine(DelayTimeToShoot());
+        //StartCoroutine(DelayTimeToShoot());
     }
 
     private void Update()
@@ -32,13 +41,33 @@ public class Player : MonoBehaviour
     {
         if (_collider.gameObject.CompareTag("Meteor"))
         {
+            if (isShield) return;
             Destroy(gameObject);
+        }
+
+        if (_collider.gameObject.CompareTag("Item"))
+        {
+            Item item = _collider.gameObject.GetComponent<Item>();
+            itemId = item.GetItemId();
+            if(item != null)
+            {
+                if(itemId == 1)
+                {
+                    shield.SetActive(true);
+                    isShield = true;
+                }
+                else if(itemId == 2)
+                {
+                    magnet.SetActive(true);
+                }
+            }
+           
         }
     }
 
     private void OnInit()
     {
-        bulletPool = new BulletPool(bulletPrefab, 10, bulletsHolder);
+        bulletPool = new BulletPool(bulletPrefab, bulletSize, bulletsHolder);
     }
 
     private void GetTargetPosition()

@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletPool : ObjectPool<Bullet>
 {
-    public BulletPool(Bullet _objectPrefab, int _poolSize, Transform _objectHolder = null) : base(_objectPrefab, _poolSize, _objectHolder)
+    public BulletPool(List<Bullet> _objectPrefab, int _poolSize, Transform _objectHolder = null) : base(_objectPrefab, _poolSize, _objectHolder)
     {
 
     }

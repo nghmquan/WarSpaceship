@@ -21,7 +21,7 @@ public class Background : MonoBehaviour
         backgroundRenderer.material.mainTextureOffset += new Vector2(dynamicSpeed * Time.deltaTime,0);
     }
 
-    //Function to get elapsed time if needed to display on UI
+    //Function to get elapsed magnet if needed to display on UI
     protected float GetElapsedTime()
     {
         return elapsedTime;
