@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool isShield = false;
 
     [Header("Launcher setting")]
-    [SerializeField] private List<Bullet> bulletPrefab;
+    [SerializeField] private List<Bullet> bulletPrefabsList;
     [SerializeField] private Transform bulletsHolder;
     [SerializeField] private int bulletSize;
     [SerializeField] private float timeToShoot;
@@ -25,7 +24,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         OnInit();
-        //StartCoroutine(DelayTimeToShoot());
+        StartCoroutine(DelayTimeToShoot());
     }
 
     private void Update()
@@ -67,7 +66,7 @@ public class Player : MonoBehaviour
 
     private void OnInit()
     {
-        bulletPool = new BulletPool(bulletPrefab, bulletSize, bulletsHolder);
+        bulletPool = new BulletPool(bulletPrefabsList, bulletSize, bulletsHolder);
     }
 
     private void GetTargetPosition()

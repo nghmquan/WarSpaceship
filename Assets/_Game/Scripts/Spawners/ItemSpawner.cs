@@ -4,41 +4,25 @@ using UnityEngine;
 
 public class ItemSpawner : Spawner<Item>
 {
-    [Header("Item Spawn Setting")]
-    [SerializeField] private List<Item> itemPrefabsList;
-    [SerializeField] private Transform itemsHolder;
-    [SerializeField] private float[] rangeSpawnPosition;
-    [SerializeField] private float timeToSpawn;
-
-    [Header("Item pool")]
-    [SerializeField] private int itemPoolSize;
-    private ItemPool itemPool;
-    private float itemMoveSpeed;
+    public void SetSpeed(float _moveSpeed)
+    {
+        objectMoveSpeed = _moveSpeed;
+    }
 
     public void StartSpawnItem()
     {
         StartCoroutine(DelayTimeToSpawn(timeToSpawn));
     }
 
-    public void SetSpeed(float _moveSpeed)
+    public override void OnInit()
     {
-        itemMoveSpeed = _moveSpeed;
-    }
-
-    public void Initialize()
-    {
-        OnInit();
-    }
-
-    public void OnInit()
-    {
-        itemPool = new ItemPool(itemPrefabsList, itemPoolSize, itemsHolder);
-        for (int i = 0; i < itemPrefabsList.Count; i++)
+        objectPool = new ItemPool(objectPrefabsList, objectPoolSize, objectsHolder);
+        for (int i = 0; i < objectPrefabsList.Count; i++)
         {
-            Item item = itemPrefabsList[i].GetComponent<Item>();
-            if(item != null)
+            Item item = objectPrefabsList[i].GetComponent<Item>();
+            if (item != null)
             {
-                item.SetItemId(i+1);
+                item.SetItemId(i + 1);
             }
             else
             {
@@ -52,7 +36,7 @@ public class ItemSpawner : Spawner<Item>
         while (true)
         {
             yield return new WaitForSeconds(_timeToSpawn);
-            Spawn(itemPrefabsList, rangeSpawnPosition, itemsHolder);
+            Spawn(objectPrefabsList, rangeSpawnPosition, objectsHolder);
         }
     }
 
@@ -61,13 +45,13 @@ public class ItemSpawner : Spawner<Item>
         float randomSpawnPosition = Random.Range(0, _rangeSpawnPosition.Length);
         var randomSpawnItem = new Vector2(randomSpawnPosition, transform.position.y);
 
-        Item item = itemPool.GetObjectFromPool();
-        item.SetSpeed(itemMoveSpeed);
-        if(item != null)
+        Item item = objectPool.GetObjectFromPool();
+        item.SetSpeed(objectMoveSpeed);
+        if (item != null)
         {
             item.transform.position = randomSpawnItem;
             item.gameObject.SetActive(true);
         }
-        
+
     }
 }

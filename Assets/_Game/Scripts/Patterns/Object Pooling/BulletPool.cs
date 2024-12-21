@@ -8,7 +8,7 @@ public class BulletPool : ObjectPool<Bullet>
 
     }
 
-    public new Bullet GetObjectFromPool()
+    public override Bullet GetObjectFromPool()
     {
         Bullet bullet = base.GetObjectFromPool();
         bullet.OnBulletReturnToPool = ReturnObjectToPool;

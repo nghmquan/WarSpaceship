@@ -4,25 +4,9 @@ using UnityEngine;
 
 public class MeteorSpawner : Spawner<Meteor>
 {
-    [Header("Meteor Spawner Setting")]
-    [SerializeField] private Transform meteorsHolder;
-    [SerializeField] private List<Meteor> meteorPrefabsList;
-    [SerializeField] private float[] rangeSpawnPosition;
-    [SerializeField] private float timeToSpawn;
-
-    [Header("Meteor Pool")]
-    [SerializeField] private int meteorPoolSize;
-    private MeteorPool meteorPool;
-    private float meteorMoveSpeed;
-
-    public void Initialize()
+    public void SetSpeed(float _speed)
     {
-        OnInit();
-    }
-
-    public void SetSpeed(float _moveSpeed)
-    {
-        meteorMoveSpeed = _moveSpeed;
+        objectMoveSpeed = _speed;
     }
 
     public void StartSpawnMeteor()
@@ -30,9 +14,9 @@ public class MeteorSpawner : Spawner<Meteor>
         StartCoroutine(DelayTimeToSpawn(timeToSpawn));
     }
 
-    private void OnInit()
+    public override void OnInit()
     {
-        meteorPool = new MeteorPool(meteorPrefabsList, meteorPoolSize, meteorsHolder);
+        objectPool = new MeteorPool(objectPrefabsList, objectPoolSize, objectsHolder);
     }
 
     protected override IEnumerator DelayTimeToSpawn(float _timeToSpawn)
@@ -40,7 +24,7 @@ public class MeteorSpawner : Spawner<Meteor>
         while (true)
         {
             yield return new WaitForSeconds(_timeToSpawn);
-            Spawn(meteorPrefabsList, rangeSpawnPosition, meteorsHolder);
+            Spawn(objectPrefabsList, rangeSpawnPosition, objectsHolder);
         }
     }
 
@@ -49,8 +33,8 @@ public class MeteorSpawner : Spawner<Meteor>
         float randomSpawnPosition = Random.Range(_rangeSpawnPosition[0], _rangeSpawnPosition.Length);
         var randomSpawnObject = new Vector2(randomSpawnPosition, transform.position.y);
 
-        Meteor meteor = meteorPool.GetObjectFromPool();
-        meteor.SetSpeed(meteorMoveSpeed);
+        Meteor meteor = objectPool.GetObjectFromPool();
+        meteor.SetSpeed(objectMoveSpeed);
         if (meteor != null)
         {
             meteor.transform.position = randomSpawnObject;

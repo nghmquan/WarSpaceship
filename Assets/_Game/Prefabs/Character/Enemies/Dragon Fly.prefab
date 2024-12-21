@@ -94,9 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3655896747373174159}
   - component: {fileID: 7199970285312005055}
+  - component: {fileID: -2780321123790696811}
   m_Layer: 0
   m_Name: Dragon Fly
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,7 +116,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1375394642365232597}
-  - {fileID: 3637445320921932695}
+  - {fileID: 3101540719267799028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &7199970285312005055
@@ -147,7 +148,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -246,7 +247,29 @@ PolygonCollider2D:
       - {x: 0.06851688, y: 0.7152207}
       - {x: 0.021167696, y: 0.79875857}
   m_UseDelaunayMesh: 0
---- !u!1 &2286883080076796724
+--- !u!114 &-2780321123790696811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077764805940366090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c232348e61bb1e045a5e7fe68e7cddaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  tagsDestroyList:
+  - DestroyArea
+  - Bullet
+  - Shield
+  bulletPrefabsList:
+  - {fileID: 5336249813630058346, guid: bc15c946892ebb64680af135df9b1e7b, type: 3}
+  bulletsHolder: {fileID: 3101540719267799028}
+  bulletSize: 10
+  timeToShoot: 0.3
+--- !u!1 &2864316538732303332
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,24 +277,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3637445320921932695}
+  - component: {fileID: 3101540719267799028}
   m_Layer: 0
-  m_Name: Bullet Holder
+  m_Name: Lazers Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3637445320921932695
+--- !u!4 &3101540719267799028
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2286883080076796724}
+  m_GameObject: {fileID: 2864316538732303332}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

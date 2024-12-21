@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float speedOfLazer;
+    [Header("Bullet setting")]
+    [SerializeField] private float speedBullet;
     [SerializeField] private List<string> tagDestroyList = new List<string>();
     public Action<Bullet> OnBulletReturnToPool { get; set; }
 
     private void Update()
     {
-        Move();
+        Move(speedBullet);
     }
 
     private void OnTriggerEnter2D(Collider2D _collision)
@@ -21,8 +22,8 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void Move()
+    private void Move(float _moveSpeed)
     {
-        transform.position = transform.position + new Vector3(0, speedOfLazer * Time.deltaTime, 0);
+        transform.position = transform.position + new Vector3(0, _moveSpeed * Time.deltaTime, 0);
     }
 }

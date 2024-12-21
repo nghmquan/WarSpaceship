@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Item : Obstacle
 {
-    [Header("Item setting")]
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private List<string> tagDestroyList = new List<string>();
+    [Header("Item Setting")]
     [SerializeField] private int itemId;
     public Action<Item> OnItemReturnToPool { get; set; }
 

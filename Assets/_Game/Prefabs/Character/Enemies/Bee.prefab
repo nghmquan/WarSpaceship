@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1741048655499754337
+--- !u!1 &3031862845336970186
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5551562697741103612}
+  - component: {fileID: 1428039250833330936}
   m_Layer: 0
-  m_Name: Bullet Holder
+  m_Name: Lazers Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5551562697741103612
+--- !u!4 &1428039250833330936
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741048655499754337}
+  m_GameObject: {fileID: 3031862845336970186}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -125,6 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6942510228829596733}
   - component: {fileID: 6617185527220381260}
+  - component: {fileID: -7223271943685064556}
   m_Layer: 0
   m_Name: Bee
   m_TagString: Enemy
@@ -145,8 +146,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1428039250833330936}
   - {fileID: 4406182913694222381}
-  - {fileID: 5551562697741103612}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &6617185527220381260
@@ -178,7 +179,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -263,3 +264,25 @@ PolygonCollider2D:
       - {x: -0.27157256, y: 0.42936066}
       - {x: -0.3430593, y: 0.4796088}
   m_UseDelaunayMesh: 0
+--- !u!114 &-7223271943685064556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7494756816727921911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c232348e61bb1e045a5e7fe68e7cddaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  tagsDestroyList:
+  - Bullet
+  - DestroyArea
+  - Shield
+  bulletPrefabsList:
+  - {fileID: 5336249813630058346, guid: bc15c946892ebb64680af135df9b1e7b, type: 3}
+  bulletsHolder: {fileID: 1428039250833330936}
+  bulletSize: 10
+  timeToShoot: 0.3

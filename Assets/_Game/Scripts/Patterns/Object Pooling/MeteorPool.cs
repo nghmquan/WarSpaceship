@@ -7,7 +7,7 @@ public class MeteorPool : ObjectPool<Meteor>
     {
     }
 
-    public new Meteor GetObjectFromPool()
+    public override Meteor GetObjectFromPool()
     {
         Meteor meteor = base.GetObjectFromPool();
         meteor.OnMeteorReturnToPool = ReturnObjectToPool;

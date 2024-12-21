@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Meteor : Obstacle
 {
-    [Header("Meteor Setting")]
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private List<string> tagDestroyList = new List<string>();
     public Action<Meteor> OnMeteorReturnToPool { get; set; }
 
     private void Update()
@@ -14,9 +10,9 @@ public class Meteor : Obstacle
         Move(moveSpeed);
     }
 
-    public void SetSpeed(float _speed)
+    public void SetSpeed(float _moveSpeed)
     {
-        moveSpeed = _speed;
+        moveSpeed = _moveSpeed;
     }
 
     protected override void OnTriggerEnter2D(Collider2D _collision)

@@ -7,7 +7,7 @@ public class ItemPool : ObjectPool<Item>
     {
     }
 
-    public new Item GetObjectFromPool()
+    public override Item GetObjectFromPool()
     {
         Item item = base.GetObjectFromPool();
         item.OnItemReturnToPool = ReturnObjectToPool;

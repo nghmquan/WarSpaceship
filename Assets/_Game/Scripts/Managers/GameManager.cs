@@ -1,10 +1,12 @@
 using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
-
     [SerializeField] private LevelConfigSO levelConfigSO;
     [SerializeField] private MeteorSpawner meteorSpawner;
     [SerializeField] private ItemSpawner itemSpawner;
+    [SerializeField] private CoinSpawner coinSpawner;
+    [SerializeField] private DiamondSpawner diamondSpawner;
+    [SerializeField] private EnemySpawner enemySpawner;
 
     private int curDifficultyIndex = 0;
     private int meteorHitCount = 0;
@@ -16,6 +18,17 @@ public class GameManager : Singleton<GameManager>
 
         //Items
         InitItemSpawner();
+
+        //Coins
+        InitCoinSpawner();
+
+        //Diamonds
+        InitDiamondSpawner();
+
+        //Enemies
+        InitEnemySpawner();
+
+        //Lazer of enemy
     }
 
     void InitMeteorSpawner()
@@ -30,6 +43,27 @@ public class GameManager : Singleton<GameManager>
         itemSpawner.Initialize();
         itemSpawner.SetSpeed(5);
         itemSpawner.StartSpawnItem();
+    }
+
+    void InitCoinSpawner()
+    {
+        coinSpawner.Initialize();
+        coinSpawner.SetSpeed(2);
+        coinSpawner.StartSpawnCoin();
+    }
+
+    void InitDiamondSpawner()
+    {
+        diamondSpawner.Initialize();
+        diamondSpawner.SetSpeed(2);
+        diamondSpawner.StartSpawnDiamond();
+    }
+
+    void InitEnemySpawner()
+    {
+        enemySpawner.Initialize();
+        enemySpawner.SetSpeed(-5);
+        enemySpawner.StartSpawnEnemy();
     }
 
     public void IncreaseMeteorHitCount()

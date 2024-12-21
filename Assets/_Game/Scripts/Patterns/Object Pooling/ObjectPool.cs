@@ -26,7 +26,7 @@ public class ObjectPool<T> where T : MonoBehaviour
     }
 
     //Get object from pool object.
-    public T GetObjectFromPool()
+    public virtual T GetObjectFromPool()
     {
         if(poolObject.Count > 0)
         {
