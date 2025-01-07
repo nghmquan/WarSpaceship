@@ -4,41 +4,18 @@ using UnityEngine;
 
 public class EnemySpawner : Spawner<Enemy>
 {
-    public void SetSpeed(float _speed)
-    {
-        objectMoveSpeed = _speed;
-    }
+    [SerializeField] private LazerSpawner lazerSpawner;
 
-    public void StartSpawnEnemy()
+    protected override void OnInitPool(ObjectPool<Enemy> _objectPool = null)
     {
-        StartCoroutine(DelayTimeToSpawn(timeToSpawn));
-    }
-
-    public override void OnInit()
-    {
-        objectPool = new EnemyPool(objectPrefabsList, objectPoolSize, objectsHolder);
-    }
-
-    protected override IEnumerator DelayTimeToSpawn(float _timeToSpawn)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(_timeToSpawn);
-            Spawn(objectPrefabsList, rangeSpawnPosition, objectsHolder);
-        }
+        EnemyPool enemyPool = new EnemyPool(objectPrefabsList, objectPoolSize, objectsHolder);
+        base.OnInitPool(enemyPool);
     }
 
     protected override void Spawn(List<Enemy> _prefabsArray, float[] _rangeSpawnPosition, Transform _prefabsHolder)
     {
-        float randomSpawnPosition = Random.Range(_rangeSpawnPosition[0], _rangeSpawnPosition.Length);
-        var randomSpawnObject = new Vector2(randomSpawnPosition, transform.position.y);
-
-        Enemy enemy = objectPool.GetObjectFromPool();
-        enemy.SetSpeed(objectMoveSpeed);
-        if (enemy != null)
-        {
-            enemy.transform.position = randomSpawnObject;
-            enemy.gameObject.SetActive(true);
-        }
+        base.Spawn(_prefabsArray, _rangeSpawnPosition, _prefabsHolder);
+        objectPrefab.SetSpeed(objectSpeed);
+        objectPrefab.SetLazerPool(lazerSpawner.GetLazerPool());
     }
 }

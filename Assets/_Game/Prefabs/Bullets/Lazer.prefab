@@ -63,7 +63,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.0051192045, y: -0.022524476}
@@ -81,10 +81,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fbeb6de6ad1d74ba0a276c0055a4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedBullet: -3
+  speedBullet: -7
   tagDestroyList:
   - Player
   - DestroyArea
+  - Shield
 --- !u!1 &3466433667729185088
 GameObject:
   m_ObjectHideFlags: 0

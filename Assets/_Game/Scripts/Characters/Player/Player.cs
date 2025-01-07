@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Singleton<Player>
 {
     [Header("Player setting")]
     [SerializeField] private Vector3 worldPosition;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private bool isDeath = false;
+
+    [Header("Player Get Items")]
+    [SerializeField] private PlayerDetect playerDetect;
     [SerializeField] private bool isShield = false;
+    [SerializeField] private bool isMagnet = false;
 
     [Header("Launcher setting")]
     [SerializeField] private List<Bullet> bulletPrefabsList;
@@ -19,7 +24,7 @@ public class Player : MonoBehaviour
     [Header("Items setting")]
     [SerializeField] private GameObject shield;
     [SerializeField] private GameObject magnet;
-    [SerializeField ]private int itemId;
+    [SerializeField] private int itemId;
 
     private void Start()
     {
@@ -29,6 +34,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (isDeath == true) { Debug.Log("IsDeath +" + isDeath); return; }
+
         if (Input.GetMouseButton(0)) //If player holds down the left mouse button
         {
             GetTargetPosition();
@@ -36,37 +43,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D _collider)
+    public void ActiveShield(bool _isActive)
     {
-        if (_collider.gameObject.CompareTag("Meteor"))
-        {
-            if (isShield) return;
-            Destroy(gameObject);
-        }
+        isShield = _isActive;
+        shield.SetActive(isShield);
+    }
 
-        if (_collider.gameObject.CompareTag("Item"))
-        {
-            Item item = _collider.gameObject.GetComponent<Item>();
-            itemId = item.GetItemId();
-            if(item != null)
-            {
-                if(itemId == 1)
-                {
-                    shield.SetActive(true);
-                    isShield = true;
-                }
-                else if(itemId == 2)
-                {
-                    magnet.SetActive(true);
-                }
-            }
-           
-        }
+    public void ActiveMagnet(bool _isActive)
+    {
+        isMagnet = _isActive;
+        magnet.SetActive(isMagnet);
     }
 
     private void OnInit()
     {
         bulletPool = new BulletPool(bulletPrefabsList, bulletSize, bulletsHolder);
+
+        playerDetect.SetPlayer(this);
     }
 
     private void GetTargetPosition()
@@ -96,5 +89,17 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(timeToShoot);
             Shoot();
         }
+    }
+
+    public bool GetIsDeath()
+    {
+        return isDeath;
+    }
+
+    public void Death()
+    {
+        isDeath = true;
+        bulletsHolder.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 }

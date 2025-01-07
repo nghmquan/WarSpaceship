@@ -1,20 +1,14 @@
 using UnityEngine;
 
-public class Background : MonoBehaviour
+public class Background : Singleton<Background>
 {
     [Header("Background System")]
-    [SerializeField] protected Renderer backgroundRenderer;
-    [SerializeField] protected float baseSpeed;
-    [SerializeField] protected float speedLoop;
+    [SerializeField] private Renderer backgroundRenderer;
+    [SerializeField] private float baseSpeed;
+    [SerializeField] private float speedLoop;
+    [SerializeField] private float elapsedTime = 0f;
 
-    [SerializeField] protected float elapsedTime = 0f;
-
-    private void Update()
-    {
-        LoopingBackground();
-    }
-
-    protected void LoopingBackground()
+    public void LoopingBackground()
     {
         elapsedTime += Time.deltaTime;
         float dynamicSpeed = baseSpeed + elapsedTime * speedLoop;
@@ -22,7 +16,7 @@ public class Background : MonoBehaviour
     }
 
     //Function to get elapsed magnet if needed to display on UI
-    protected float GetElapsedTime()
+    public float GetElapsedTime()
     {
         return elapsedTime;
     }

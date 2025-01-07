@@ -4,40 +4,15 @@ using UnityEngine;
 
 public class CoinSpawner : Spawner<Coin>
 {
-    public void SetSpeed(float _speed)
+    protected override void OnInitPool(ObjectPool<Coin> _objectPool = null)
     {
-        objectMoveSpeed = _speed;
-    }
-
-    public void StartSpawnCoin()
-    {
-        StartCoroutine(DelayTimeToSpawn(timeToSpawn));
-    }
-
-    public override void OnInit()
-    {
-        objectPool = new CoinPool(objectPrefabsList, objectPoolSize, objectsHolder);
-    }
-    protected override IEnumerator DelayTimeToSpawn(float _timeToSpawn)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(_timeToSpawn);
-            Spawn(objectPrefabsList, rangeSpawnPosition, objectsHolder);
-        }
+        CoinPool coinPool = new CoinPool(objectPrefabsList, objectPoolSize, objectsHolder);
+        base.OnInitPool(coinPool);
     }
 
     protected override void Spawn(List<Coin> _prefabsArray, float[] _rangeSpawnPosition, Transform _prefabsHolder)
     {
-        float randomSpawnPosition = Random.Range(_rangeSpawnPosition[0], _rangeSpawnPosition.Length);
-        var randomSpawnObject = new Vector2(randomSpawnPosition, transform.position.y);
-
-        Coin coin = objectPool.GetObjectFromPool();
-        coin.SetSpeed(objectMoveSpeed);
-        if (coin != null)
-        {
-            coin.transform.position = randomSpawnObject;
-            coin.gameObject.SetActive(true);
-        }
+        base.Spawn(_prefabsArray, _rangeSpawnPosition, _prefabsHolder);
+        objectPrefab.SetSpeed(objectSpeed);
     }
 }

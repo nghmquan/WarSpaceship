@@ -7,18 +7,17 @@ public class Meteor : Obstacle
 
     private void Update()
     {
-        Move(moveSpeed);
-    }
-
-    public void SetSpeed(float _moveSpeed)
-    {
-        moveSpeed = _moveSpeed;
+        Move(speedObstacle);
     }
 
     protected override void OnTriggerEnter2D(Collider2D _collision)
     {
         if (tagDestroyList.Contains(_collision.gameObject.tag))
         {
+            if (_collision.gameObject.CompareTag("Magnet"))
+            {
+                return;
+            }
             OnMeteorReturnToPool?.Invoke(this);
         }
     }

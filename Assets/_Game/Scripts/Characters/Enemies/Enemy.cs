@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,21 +10,19 @@ public class Enemy : MonoBehaviour
     public Action<Enemy> OnEnemyReturnToPool { get; set; }
 
     [Header("Launcher setting")]
-    [SerializeField] private List<Bullet> bulletPrefabsList;
-    [SerializeField] private Transform bulletsHolder;
-    [SerializeField] private int bulletSize;
     [SerializeField] private float timeToShoot;
-    private BulletPool bulletPool;
+    private BulletPool lazerPool;
+    private float shootTimer;
 
     private void Start()
     {
         OnInit();
-        StartCoroutine(DelayTimeToShoot());
     }
 
     void Update()
     {
         Move();
+        Shoot();
     }
 
     private void OnTriggerEnter2D(Collider2D _collision)
@@ -38,7 +35,12 @@ public class Enemy : MonoBehaviour
 
     private void OnInit()
     {
-        bulletPool = new BulletPool(bulletPrefabsList, bulletSize, bulletsHolder);
+        shootTimer = timeToShoot;
+    }
+
+    public void SetLazerPool(BulletPool _lazerPool)
+    {
+        lazerPool = _lazerPool;
     }
 
     public void SetSpeed(float _speed)
@@ -52,19 +54,23 @@ public class Enemy : MonoBehaviour
         transform.position = targetPosition;
     }
 
-    public void Shoot()
+    private void Shoot()
     {
-        Bullet bullet = bulletPool.GetObjectFromPool();
-        bullet.transform.position = transform.position;
-        bullet.gameObject.SetActive(true);
+        shootTimer -= Time.deltaTime;
+        if(shootTimer <= 0f)
+        {
+            GetBulletFromPool();
+            shootTimer = timeToShoot;
+        }
     }
 
-    private IEnumerator DelayTimeToShoot()
+    public void GetBulletFromPool()
     {
-        while (true)
+        Bullet lazer = lazerPool?.GetObjectFromPool();
+        if (lazer != null)
         {
-            yield return new WaitForSeconds(timeToShoot);
-            Shoot();
+            lazer.transform.position = transform.position;
+            lazer.gameObject.SetActive(true);
         }
     }
 }

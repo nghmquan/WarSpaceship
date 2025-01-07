@@ -1,69 +1,73 @@
 using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField] private Player player;
     [SerializeField] private LevelConfigSO levelConfigSO;
     [SerializeField] private MeteorSpawner meteorSpawner;
     [SerializeField] private ItemSpawner itemSpawner;
     [SerializeField] private CoinSpawner coinSpawner;
     [SerializeField] private DiamondSpawner diamondSpawner;
     [SerializeField] private EnemySpawner enemySpawner;
-
+    [SerializeField] private LazerSpawner lazerSpawner;
     private int curDifficultyIndex = 0;
     private int meteorHitCount = 0;
 
+    private bool hasLoggedDeath = false;
+
     private void Start()
     {
-        //Meteors
-        InitMeteorSpawner();
-
-        //Items
-        InitItemSpawner();
-
-        //Coins
-        InitCoinSpawner();
-
-        //Diamonds
-        InitDiamondSpawner();
-
-        //Enemies
-        InitEnemySpawner();
-
-        //Lazer of enemy
+        InitObstacleSpanwer();
     }
 
-    void InitMeteorSpawner()
+    private void Update()
     {
+        if (Player.Instance.GetIsDeath())
+        {
+            if (!hasLoggedDeath)
+            {
+                meteorSpawner.StopSpawing();
+                itemSpawner.StopSpawing();
+                coinSpawner.StopSpawing();
+                diamondSpawner.StopSpawing();
+                enemySpawner.StopSpawing();
+                hasLoggedDeath = true;
+            }
+            return;
+        }
+
+        Background.Instance.LoopingBackground();
+    }
+
+    private void InitObstacleSpanwer()
+    {
+        //Meteors Spawner
         meteorSpawner.Initialize();
         meteorSpawner.SetSpeed(levelConfigSO.datas[curDifficultyIndex].gameSpeed);
-        meteorSpawner.StartSpawnMeteor();
-    }
+        meteorSpawner.StartSpawing();
 
-    void InitItemSpawner()
-    {
+        //Items Spawner
         itemSpawner.Initialize();
         itemSpawner.SetSpeed(5);
-        itemSpawner.StartSpawnItem();
-    }
+        itemSpawner.StartSpawing();
 
-    void InitCoinSpawner()
-    {
+        //Coins Spawner
         coinSpawner.Initialize();
         coinSpawner.SetSpeed(2);
-        coinSpawner.StartSpawnCoin();
-    }
+        coinSpawner.StartSpawing();
 
-    void InitDiamondSpawner()
-    {
+        //Diamonds Spawner
         diamondSpawner.Initialize();
         diamondSpawner.SetSpeed(2);
-        diamondSpawner.StartSpawnDiamond();
-    }
+        diamondSpawner.StartSpawing();
 
-    void InitEnemySpawner()
-    {
+        //Enemies Spawner
         enemySpawner.Initialize();
         enemySpawner.SetSpeed(-5);
-        enemySpawner.StartSpawnEnemy();
+        enemySpawner.StartSpawing();
+
+        //Lazers of enemy spawner
+        lazerSpawner.Initialize();
+
     }
 
     public void IncreaseMeteorHitCount()
@@ -72,13 +76,13 @@ public class GameManager : Singleton<GameManager>
         if (meteorHitCount >= levelConfigSO.datas[curDifficultyIndex].numOfMeteor)
         {
             curDifficultyIndex++;
-            if (curDifficultyIndex>= levelConfigSO.datas.Count)
+            if (curDifficultyIndex >= levelConfigSO.datas.Count)
             {
                 curDifficultyIndex = levelConfigSO.datas.Count;
             }
             meteorHitCount = 0;
             meteorSpawner.SetSpeed(levelConfigSO.datas[curDifficultyIndex].gameSpeed);
         }
-        Debug.Log($"Difficulty : {curDifficultyIndex+1} - Meteor Hit: {meteorHitCount}");
+        Debug.Log($"Difficulty : {curDifficultyIndex + 1} - Meteor Hit: {meteorHitCount}");
     }
 }

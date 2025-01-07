@@ -7,12 +7,7 @@ public class Diamond : Obstacle
 
     private void Update()
     {
-        Move(moveSpeed);
-    }
-
-    public void SetSpeed(float _moveSpeed)
-    {
-        moveSpeed = _moveSpeed;
+        Move(speedObstacle);
     }
 
     protected override void OnTriggerEnter2D(Collider2D _collider)

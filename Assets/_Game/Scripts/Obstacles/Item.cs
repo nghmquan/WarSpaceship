@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Item : Obstacle
@@ -10,7 +9,7 @@ public class Item : Obstacle
 
     private void Update()
     {
-        Move(moveSpeed);
+        Move(speedObstacle);
     }
 
     public int GetItemId()
@@ -21,11 +20,6 @@ public class Item : Obstacle
     public void SetItemId(int _itemId)
     {
         itemId = _itemId;
-    }
-
-    public void SetSpeed(float _moveSpeed)
-    {
-        moveSpeed = _moveSpeed;
     }
 
     protected override void OnTriggerEnter2D(Collider2D _collider)

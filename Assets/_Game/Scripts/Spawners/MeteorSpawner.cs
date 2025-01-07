@@ -4,41 +4,19 @@ using UnityEngine;
 
 public class MeteorSpawner : Spawner<Meteor>
 {
-    public void SetSpeed(float _speed)
+    protected override void OnInitPool(ObjectPool<Meteor> _objectPool = null)
     {
-        objectMoveSpeed = _speed;
+        MeteorPool meteoPool = new MeteorPool(objectPrefabsList, objectPoolSize, objectsHolder);
+        base.OnInitPool(meteoPool);
     }
 
-    public void StartSpawnMeteor()
+    public override void CustomObjectPrefab(Meteor _t)
     {
-        StartCoroutine(DelayTimeToSpawn(timeToSpawn));
-    }
-
-    public override void OnInit()
-    {
-        objectPool = new MeteorPool(objectPrefabsList, objectPoolSize, objectsHolder);
-    }
-
-    protected override IEnumerator DelayTimeToSpawn(float _timeToSpawn)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(_timeToSpawn);
-            Spawn(objectPrefabsList, rangeSpawnPosition, objectsHolder);
-        }
+        _t.SetSpeed(objectSpeed);
     }
 
     protected override void Spawn(List<Meteor> _prefabsArray, float[] _rangeSpawnPosition, Transform _prefabsHolder)
     {
-        float randomSpawnPosition = Random.Range(_rangeSpawnPosition[0], _rangeSpawnPosition.Length);
-        var randomSpawnObject = new Vector2(randomSpawnPosition, transform.position.y);
-
-        Meteor meteor = objectPool.GetObjectFromPool();
-        meteor.SetSpeed(objectMoveSpeed);
-        if (meteor != null)
-        {
-            meteor.transform.position = randomSpawnObject;
-            meteor.gameObject.SetActive(true);
-        }
+        base.Spawn(_prefabsArray, _rangeSpawnPosition, _prefabsHolder);
     }
 }

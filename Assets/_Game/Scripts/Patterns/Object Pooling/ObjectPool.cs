@@ -10,7 +10,6 @@ public class ObjectPool<T> where T : MonoBehaviour
 
     public ObjectPool(List<T> _objectPrefabsList, int _poolSize, Transform _objectHolder = null)
     {
-        
         objectPrefabsList = _objectPrefabsList;
         objectHolder = _objectHolder;
         poolObject = new Queue<T>();
@@ -44,7 +43,7 @@ public class ObjectPool<T> where T : MonoBehaviour
     }
 
     //Return object to pool object.
-    public void ReturnObjectToPool(T _obj)
+    public virtual void ReturnObjectToPool(T _obj)
     {
         _obj.gameObject.SetActive(false);
         if(objectHolder != null)

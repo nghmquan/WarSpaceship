@@ -4,41 +4,15 @@ using UnityEngine;
 
 public class DiamondSpawner : Spawner<Diamond>
 {
-    public void SetSpeed(float _moveSpeed)
+    protected override void OnInitPool(ObjectPool<Diamond> _objectPool = null)
     {
-        objectMoveSpeed = _moveSpeed;
-    }
-
-    public void StartSpawnDiamond()
-    {
-        StartCoroutine(DelayTimeToSpawn(timeToSpawn));
-    }
-
-    public override void OnInit()
-    {
-        objectPool = new DiamondPool(objectPrefabsList, objectPoolSize, objectsHolder);
-    }
-
-    protected override IEnumerator DelayTimeToSpawn(float _timeToSpawn)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(_timeToSpawn);
-            Spawn(objectPrefabsList, rangeSpawnPosition, objectsHolder);
-        }
+        DiamondPool diamondPool = new DiamondPool(objectPrefabsList, objectPoolSize, objectsHolder);
+        base.OnInitPool(diamondPool);
     }
 
     protected override void Spawn(List<Diamond> _prefabsArray, float[] _rangeSpawnPosition, Transform _prefabsHolder)
     {
-        float randomSpawnPosition = Random.Range(_rangeSpawnPosition[0], _rangeSpawnPosition.Length);
-        var randomSpawnObject = new Vector2(randomSpawnPosition, transform.position.y);
-
-        Diamond diamond = objectPool.GetObjectFromPool();
-        diamond.SetSpeed(objectMoveSpeed);
-        if (diamond != null)
-        {
-            diamond.transform.position = randomSpawnObject;
-            diamond.gameObject.SetActive(true);
-        }
+        base.Spawn(_prefabsArray, _rangeSpawnPosition, _prefabsHolder);
+        SetSpeed(objectSpeed);
     }
 }

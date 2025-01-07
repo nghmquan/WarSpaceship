@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - Shield
   - Magnet
+  - Coin
+  - Diamond
   layers:
   - Default
   - TransparentFX
