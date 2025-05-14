@@ -4,13 +4,32 @@ public class PlayerShot : MonoBehaviour
 {
     private bool isShot;
     private float timeToShot;
-
+    private float delayTimeShot;
     private bool hasLoggedStopShoting;
 
-    public void Shot(bool _isShot, float _delayTimeToShot)
+    public bool GetShoting()
+    {
+        return isShot;
+    }
+
+    public void SetShoting(bool _isShot)
     {
         isShot = _isShot;
+    }
 
+    public float GetTimeToShot()
+    {
+        return timeToShot;
+    }
+
+    public void SetTimeToShot(float _timeToShot)
+    {
+        timeToShot = _timeToShot;
+        delayTimeShot = timeToShot;
+    }
+
+    public void Shot()
+    {
         if (!isShot)
         {
             if (!hasLoggedStopShoting)
@@ -28,7 +47,7 @@ public class PlayerShot : MonoBehaviour
         {
             Bullet bullet = BulletPool.Instance.GetObjectFromPool("Bullet");
             bullet.transform.position = transform.position;
-            timeToShot = _delayTimeToShot;
+            timeToShot = delayTimeShot;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -126,5 +127,17 @@ public class ObjectPool<T> : Singleton<ObjectPool<T>> where T : Component, IPool
             pool.Value.Clear();
         }
         poolDictionary.Clear();
+    }
+
+    public virtual IEnumerator SpawnRandomObject(bool _isSpawn, float _timeSpawn, float _minPosition, float _maxPosition)
+    {
+        //while (_isSpawn)
+        //{
+        //    var objective = Random.Range(_minPosition, _maxPosition);
+        //    var position = new Vector3(objective, transform.position.y);
+        //    GameObject gameObject = Instantiate(prefab[Random.Range(0, prefab.Length)],position,Quaternion.identity);
+        yield return new WaitForSeconds(_timeSpawn);
+        //    Destroy(gameObject, 5f);
+        //}
     }
 }
