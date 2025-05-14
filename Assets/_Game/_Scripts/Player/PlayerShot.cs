@@ -7,26 +7,6 @@ public class PlayerShot : MonoBehaviour
 
     private bool hasLoggedStopShoting;
 
-    public bool GetShoting()
-    {
-        return isShot;
-    }
-
-    public void SetShoting(bool _isShot)
-    {
-        isShot = _isShot;
-    }
-
-    public float GetTimeToShot()
-    {
-        return timeToShot;
-    }
-
-    public void SetTimeToShot(float _timeToShot)
-    {
-        timeToShot = _timeToShot;
-    }
-
     public void Shot(bool _isShot, float _delayTimeToShot)
     {
         isShot = _isShot;
