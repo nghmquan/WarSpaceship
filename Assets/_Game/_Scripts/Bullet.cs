@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPoolable
 {
-    [SerializeField] private int speed;
+    [SerializeField] private float speed;
     private Vector3 viewportPosition;
 
     void Update()
@@ -10,12 +10,12 @@ public class Bullet : MonoBehaviour
         MoveSpeed();
     }
 
-    public int GetSpeed()
+    public float GetSpeed()
     {
         return speed;
     }
 
-    public void SetSpeed(int _speed)
+    public void SetSpeed(float _speed)
     {
         speed = _speed;
     }
@@ -28,7 +28,17 @@ public class Bullet : MonoBehaviour
 
         if(viewportPosition.y > 1)
         {
-            ObjectPool.Instance.ReturnToPool("Bullet", this);
+            BulletPool.Instance.ReturnObjectToPool("Bullet", this);
         }
+    }
+
+    public void OnSpawned()
+    {
+        
+    }
+
+    public void OnDisposed()
+    {
+        
     }
 }
