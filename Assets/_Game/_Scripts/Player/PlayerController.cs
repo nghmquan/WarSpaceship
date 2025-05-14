@@ -26,7 +26,5 @@ public class PlayerController : MonoBehaviour
     private void InitializePlayer()
     {
         playerMovement.SetSpeed(5);
-        playerShot.SetShoting(canShot);
-        playerShot.SetTimeToShot(0.2f);
     }
 }
