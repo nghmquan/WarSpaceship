@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     {
         InitializePlayer();
     }
-
     
     void Update()
     {
