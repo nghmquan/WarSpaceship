@@ -1,17 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Pool 
-{
-    public string tag;
-    public GameObject prefab;
-    public Transform prefabHolder;
-    public int poolSize;
-}
-
 public class PoolManager : MonoBehaviour
 {
+    [SerializeField] private BulletPool bulletPool;
+
     private void Start()
     {
         InitializePool();
@@ -19,6 +12,6 @@ public class PoolManager : MonoBehaviour
 
     private void InitializePool()
     {
-        BulletPool.Instance.CreatePool();
+        bulletPool.CreatePool();
     }
 }

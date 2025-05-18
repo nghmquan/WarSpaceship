@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5080885039253349764}
   - component: {fileID: 7434791415228784420}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4b4db037b2dc047840f3e3f67c2d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameObjectTag: FIreball
   speed: 10
 --- !u!1 &8284063127855843993
 GameObject:

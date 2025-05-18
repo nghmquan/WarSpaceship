@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour, IPoolable
+public class Bullet : Obstacle, IPoolable
 {
     [SerializeField] private float speed;
     private Vector3 viewportPosition;
@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour, IPoolable
 
         if(viewportPosition.y > 1)
         {
-            BulletPool.Instance.ReturnObjectToPool("Bullet", this);
+            BulletPool.Instance.ReturnObjectToPool(this.GetGameObjectTag(), this.gameObject);
         }
     }
 

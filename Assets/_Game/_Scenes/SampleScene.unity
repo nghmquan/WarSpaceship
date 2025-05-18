@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade90abc7a3ea0746b1d1187991b26ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 5
 --- !u!4 &378752190
 Transform:
   m_ObjectHideFlags: 0
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 793362479}
   - component: {fileID: 793362480}
   m_Layer: 0
-  m_Name: Bullet Pool
+  m_Name: Bullet Pool List
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,8 +304,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOverLoad: 0
-  pools:
-  - tag: Bullet
+  poolList:
+  - prefabTag: 
     prefab: {fileID: 683824781937309927, guid: d74902e78a8cb6f4da984d02d9621faf, type: 3}
     prefabHolder: {fileID: 793362479}
     poolSize: 10
@@ -354,6 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12fcdf8cbfcfdeb44b276ddff3a94cb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPool: {fileID: 793362480}
 --- !u!1 &1330685215
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +474,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.50408816, y: 0.75}
+  m_Size: {x: 0.5040882, y: 0.75}
   m_Direction: 0
 --- !u!50 &1330685219
 Rigidbody2D:
@@ -490,7 +491,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -533,7 +534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 378752188}
   playerShot: {fileID: 1494720030}
-  canShot: 1
+  isShot: 1
   timeToShot: 0.2
 --- !u!4 &1391646369
 Transform:
@@ -564,7 +565,7 @@ GameObject:
   - component: {fileID: 1494720029}
   - component: {fileID: 1494720030}
   m_Layer: 0
-  m_Name: Action
+  m_Name: Shotting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -597,6 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd63c2ff9922db344b26f574ca27f0d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabBullet: {fileID: 7434791415228784420, guid: d74902e78a8cb6f4da984d02d9621faf, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

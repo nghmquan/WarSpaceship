@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerShot : MonoBehaviour
 {
+    [SerializeField] private Bullet prefabBullet;
     private bool isShot;
     private float timeToShot;
     private float delayTimeShot;
@@ -45,7 +46,7 @@ public class PlayerShot : MonoBehaviour
 
         if (timeToShot <= 0)
         {
-            Bullet bullet = BulletPool.Instance.GetObjectFromPool("Bullet");
+            Bullet bullet = BulletPool.Instance.GetObjectFromPool(prefabBullet.GetGameObjectTag()).GetComponent<Bullet>();
             bullet.transform.position = transform.position;
             timeToShot = delayTimeShot;
         }

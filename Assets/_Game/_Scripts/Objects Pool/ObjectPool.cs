@@ -1,71 +1,102 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 
 /// <summary>
-/// Khởi tạo pool genetic T và T có kế thừa Component và IPoolable
+/// 
 /// </summary>
-public class ObjectPool<T> : Singleton<ObjectPool<T>> where T : Component, IPoolable
+public class ObjectPool : Singleton<ObjectPool>
 {
-    [SerializeField] protected List<Pool> pools; //Khởi tạo danh sách các pools
-    private Dictionary<string, Queue<T>> poolDictionary; //Dictionary để lưu trữ các pool theo tác
+    [SerializeField] private List<Pool> poolList;
+    private Queue<GameObject> objectPoolQueue;
+    private Dictionary<string, Queue<GameObject>> objectPoolDictionary;
 
     public virtual void CreatePool()
     {
-        poolDictionary = new Dictionary<string, Queue<T>>(); //Khai báo để khởi tạo Dictionary
+        objectPoolDictionary = new Dictionary<string, Queue<GameObject>>();
+        objectPoolQueue = new Queue<GameObject>();
 
-        foreach (Pool pool in pools) //Khởi tạo pool để chạy trong vòng lăp của danh sách pools
+        foreach (var objective in poolList)
         {
-            if (!poolDictionary.ContainsKey(pool.tag)) //Kiểm tra đối tượng pool.tag có tồn tại trong Dictionary hay không.
+            if (!objectPoolDictionary.ContainsKey(objective.GetPrefabTag()))
             {
-                Queue<T> objectPool = new Queue<T>(); //Khởi tạo một hằng đợi Queue
+                Transform gameObjectHolder = Instantiate(gameObject.transform, this.transform);
+                gameObjectHolder.gameObject.name = objective.GetPrefabTag() + " Pool";
 
-                Transform parent = pool.prefabHolder != null ? pool.prefabHolder : transform; //Khởi tạo Transform parent để gán pool.prefabHolder
-
-                for(int index = 0; index < pool.poolSize; index++) //Cho index chạy vòng lặp for
+                for (int index = 0; index < objective.GetPoolSize(); index++)
                 {
-                    GameObject gameObject = Instantiate(pool.prefab, parent); //Khởi tạo gameObject để sinh pool.prefab và gán parent
-                    T poolableObject = gameObject.GetComponent<T>(); //khởi tạo poolable và gán gameObject lấy component theo kiểu dữ liệu
+                    GameObject gameOject = Instantiate(objective.GetPrefab(), gameObjectHolder);
+                    gameOject.SetActive(false);
+                    objectPoolQueue.Enqueue(gameOject);
+                }
 
-                    if(poolableObject != null) //Kiểm trả poolable có null hay không
+                objectPoolDictionary.Add(objective.GetPrefabTag(), objectPoolQueue);
+            }
+            else
+            {
+                Debug.Log($"GameObject with tag '{objective.GetPrefabTag()}' has already exist.");
+            }
+        }
+    }
+
+    public virtual GameObject GetObjectFromPool(string _gameObjectTag)
+    {
+        if (!objectPoolDictionary.ContainsKey(_gameObjectTag))
+        {
+            Debug.LogError($"GameObject with tag '{_gameObjectTag}' does not exist.");
+            return null;
+        }
+        else
+        {
+            if (objectPoolQueue.Count > 0)
+            {
+                GameObject gameObject = objectPoolQueue.Dequeue();
+                if (gameObject.TryGetComponent<IPoolable>(out var poolable))
+                {
+                    gameObject.SetActive(true);
+                    poolable.OnSpawned();
+                    return gameObject;
+                }
+                else
+                {
+                    Debug.LogWarning("GameObject does not implement IPoolable.");
+                    return null;
+                }
+            }
+            else
+            {
+                foreach (var objective in poolList)
+                {
+                    if (objective.GetPrefabTag() != _gameObjectTag) { continue; }
+
+                    GameObject gameObject = Instantiate(objective.GetPrefab(), objective.GetPrefabHolder());
+                    if (gameObject.TryGetComponent<IPoolable>(out var poolable))
                     {
-                        gameObject.SetActive(false); //Cài đặt đối tượng ẩn đị
-                        objectPool.Enqueue(poolableObject);// Thêm đối tượng và queue objectPool
+                        gameObject.SetActive(true);
+                        poolable.OnSpawned();
+                        return gameObject;
                     }
                     else
                     {
-                        Debug.Log($"Prefab {pool.prefab.name} does not have a component of type {typeof(T)} or does not implement IPoolable");
-                        //Destroy luôn object bị lỗi
-                        Destroy(gameObject);
+                        Debug.LogWarning("GameObject does not implement IPoolable.");
+                        return null;
                     }
                 }
-
-                poolDictionary.Add(pool.tag, objectPool); //Thêm pool.tag và queue objetPool vào poolDciotnary
             }
         }
+        return null;
     }
 
-    public virtual void ClearPool()
+    public virtual void ReturnObjectToPool(string _gameObjectTag, GameObject _gameObjectInPool)
     {
-        foreach (var pool in poolDictionary)
+        if(objectPoolDictionary.TryGetValue(_gameObjectTag, out var objectPoolQueue))
         {
-            foreach (var obj in pool.Value)
-            {
-                Destroy(obj.gameObject);
-            }
+            _gameObjectInPool.SetActive(false);
+            objectPoolQueue.Enqueue(_gameObjectInPool);
+            return;
         }
-    }
-
-    public virtual IEnumerator SpawnRandomObject(bool _isSpawn, float _timeSpawn, float _minPosition, float _maxPosition)
-    {
-        //while (_isSpawn)
-        //{
-        //    var objective = Random.Range(_minPosition, _maxPosition);
-        //    var position = new Vector3(objective, transform.position.y);
-        //    GameObject gameObject = Instantiate(prefab[Random.Range(0, prefab.Length)],position,Quaternion.identity);
-        yield return new WaitForSeconds(_timeSpawn);
-        //    Destroy(gameObject, 5f);
-        //}
+        Debug.LogWarning($"GameObject with tag '{_gameObjectTag}' does not exist.");
     }
 }
