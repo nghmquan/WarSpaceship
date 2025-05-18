@@ -19,8 +19,4 @@ public class BulletPool : ObjectPool<Bullet>
         base.ReturnObjectToPool(_tag, _object);
     }
 
-    public override void ClearPool()
-    {
-        base.ClearPool();
-    }
 }
