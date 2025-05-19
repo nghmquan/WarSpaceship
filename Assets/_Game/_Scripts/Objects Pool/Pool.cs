@@ -25,11 +25,6 @@ public class Pool
         return prefabHolder;
     }
 
-    public void SetPrefabHolder(Transform _prefabHolder)
-    {
-        prefabHolder = _prefabHolder;
-    }
-
     public int GetPoolSize()
     {
         return poolSize;
