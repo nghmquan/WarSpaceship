@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class Pool
 {
-    [SerializeField, ReadOnly] private string prefabTag;
+    [SerializeField] private string prefabTag;
     [SerializeField] private GameObject prefab;
     [SerializeField] private Transform prefabHolder;
     [SerializeField] private int poolSize;
